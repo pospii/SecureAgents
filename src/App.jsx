@@ -1,6 +1,7 @@
 import { Button, Footer, Header, Panel, StatusBar } from './components'
 import { usePath } from './router'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const offers = [
   { tier: '01 · Starter', title: 'Agent Starter', desc: 'Osobní AI asistent pro jednotlivce — rychlé nasazení, okamžitý přínos.', price: '3 000–5 000 Kč', monthly: '+ 300–500 Kč / měsíc', items: ['Instalace a konfigurace jednoho agenta', 'Napojení na kalendář a Telegram / e-mail', 'Základní denní přehledy a připomínky', 'Zaškolení, jak s agentem pracovat'] },
@@ -45,4 +46,4 @@ function HowItWorks() { return <>
   <Footer technical />
 </> }
 
-export default function App() { const path = usePath(); return <><StatusBar /><Header />{path === '/jak-to-funguje' ? <HowItWorks /> : <HomePage />}<Analytics /></> }
+export default function App() { const path = usePath(); return <><StatusBar /><Header />{path === '/jak-to-funguje' ? <HowItWorks /> : <HomePage />}<Analytics /><SpeedInsights /></> }
