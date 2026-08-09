@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://secureagents.cz/sitemap.xml

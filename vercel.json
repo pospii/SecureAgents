@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/jak-to-funguje",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ochrana-soukromi",
+      "destination": "/index.html"
+    }
+  ]
+}
