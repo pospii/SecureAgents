@@ -5,6 +5,18 @@
       "destination": "/index.html"
     },
     {
+      "source": "/o-nas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/index.html"
+    },
+    {
       "source": "/ochrana-soukromi",
       "destination": "/index.html"
     }
