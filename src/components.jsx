@@ -7,7 +7,7 @@ export function StatusBar() {
 }
 
 export function Header() {
-  return <header className="site"><div className="wrap"><Link className="logo" to="/">Secure<span>Agents</span></Link><nav className="site"><NavLink to="/#sluzby">Služby</NavLink><NavLink to="/jak-to-funguje">Jak to funguje</NavLink><NavLink to="/o-nas">O nás</NavLink><NavLink to="/faq">FAQ</NavLink><NavLink to="/#kontakt">Kontakt</NavLink></nav></div></header>
+  return <header className="site"><div className="wrap"><Link className="logo" to="/">Secure<span>Agents</span></Link><nav className="site"><NavLink to="/">Domů</NavLink><NavLink to="/#sluzby">Služby</NavLink><NavLink to="/jak-to-funguje">Jak to funguje</NavLink><NavLink to="/o-nas">O nás</NavLink><NavLink to="/blog">Blog</NavLink><NavLink to="/faq">FAQ</NavLink><NavLink to="/#kontakt">Kontakt</NavLink></nav></div></header>
 }
 
 export function Panel({ children, className = '' }) {
@@ -21,7 +21,9 @@ export function Button({ children, to, primary = false, eventName, ...props }) {
 }
 
 export function Footer({ technical = false, onOpenCookies }) {
-  return <footer><div className="wrap"><div><h3>{technical ? 'Máte technickou otázku, na kterou tu nevidíte odpověď?' : 'Chcete AI agenta, kterému rozumíte a věříte?'}</h3><div className="cta-row"><Button to="mailto:info@secureagents.cz" primary eventName="Kontaktovat e-mailem">info@secureagents.cz</Button>{technical && <Button to="/#sluzby">Zpět na služby</Button>}</div></div><div className="foot-meta"><div>SecureAgents</div><div>Ostrava / Brno, ČR</div><div><Link to="/blog">Blog</Link></div><div><Link to="/ochrana-soukromi">Ochrana soukromí</Link></div><div><button className="text-button" onClick={onOpenCookies}>Nastavení cookies</button></div><div>© 2026</div></div></div></footer>
+  const [copied, setCopied] = useState('')
+  const copyOnClick = (value, key) => () => { navigator.clipboard?.writeText(value).then(() => { setCopied(key); setTimeout(() => setCopied(''), 1800) }).catch(() => {}) }
+  return <footer><div className="wrap"><div><h3>{technical ? 'Máte technickou otázku, na kterou tu nevidíte odpověď?' : 'Chcete AI agenta, kterému rozumíte a věříte?'}</h3><div className="cta-row"><Button to="mailto:info@secureagents.cz" primary eventName="Kontaktovat e-mailem" onClick={copyOnClick('info@secureagents.cz', 'email')}>{copied === 'email' ? 'E-mail zkopírován ✓' : 'info@secureagents.cz'}</Button>{technical && <Button to="/#sluzby">Zpět na služby</Button>}</div></div><nav className="foot-nav"><Link to="/">Domů</Link><Link to="/#sluzby">Služby</Link><Link to="/jak-to-funguje">Jak to funguje</Link><Link to="/o-nas">O nás</Link><Link to="/blog">Blog</Link><Link to="/faq">FAQ</Link><Link to="/#kontakt">Kontakt</Link></nav><div className="foot-meta"><div>SecureAgents</div><div>Bc. Adam Pospíšek</div><div>Ostrava / Brno, ČR</div><div><a href="tel:+420606331442" onClick={copyOnClick('+420 606 331 442', 'phone')}>{copied === 'phone' ? 'Telefon zkopírován ✓' : '+420 606 331 442'}</a></div></div></div><div className="foot-bottom"><div className="wrap foot-bottom-row"><span>© 2026 SecureAgents</span><div className="foot-bottom-links"><Link to="/ochrana-soukromi">Ochrana soukromí</Link><button className="text-button" onClick={onOpenCookies}>Nastavení cookies</button></div></div></div></footer>
 }
 
 export function CookieBanner({ onSave }) {
