@@ -17,6 +17,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/kontakt",
+      "destination": "/index.html"
+    },
+    {
       "source": "/ochrana-soukromi",
       "destination": "/index.html"
     }
