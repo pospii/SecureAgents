@@ -78,6 +78,7 @@ h2{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-.01em}
 .tool.primary{color:var(--amber)}
 .tag-default{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;color:#181206;background:var(--amber);padding:2px 7px;margin-top:8px;text-transform:uppercase}
 .infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.model-levels{margin-top:56px}
 .infra-card h3{font-size:19px;margin:10px 0}
 .infra-card p{margin-bottom:14px}
 .infra-card li{font-size:13px;margin-bottom:7px}
