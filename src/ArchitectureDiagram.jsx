@@ -11,21 +11,52 @@ const nodeInfo = {
   n8n: { title: 'n8n', text: 'Jedna platforma pro automatizaci procesů, monitoring i chat s asistentem.' },
   database: { title: 'Databáze klienta', text: 'Napojení jen pro čtení — agent do vašich provozních dat nikdy nezapisuje.' },
   dashboard: { title: 'Dashboard', text: 'Přehled stavu, anomálií a nákladů pro vedení a IT.' },
-  model: { title: 'AI model', text: 'Zpracuje jednotlivý dotaz. Kde přesně běží, určuje zvolená úroveň níže.' },
+  model: { title: 'AI model', text: 'Zpracuje jednotlivý dotaz. Kde přesně běží, určuje zvolená úroveň výše.' },
   monitoring: { title: 'Náš monitoring', text: 'Vidíme jen to, že služba běží — ne vaše data.' }
 }
 
-function DiagramNode({ nodeKey, x, y, w, h, label, sub, primary, active, onEnter, onLeave, onClick }) {
+function DiagramNode({ nodeKey, x, y, w, h, label, sub, primary, shape = 'rect', active, onEnter, onLeave, onClick }) {
+  const cx = x + w / 2
+  const cy = y + h / 2
+  let shapeEl
+  let textY = cy
+
+  if (shape === 'cylinder') {
+    const rx = w / 2
+    const ry = 10
+    shapeEl = <>
+      <path d={`M ${x} ${y + ry} A ${rx} ${ry} 0 0 0 ${x + w} ${y + ry} L ${x + w} ${y + h - ry} A ${rx} ${ry} 0 0 1 ${x} ${y + h - ry} Z`} />
+      <ellipse cx={cx} cy={y + ry} rx={rx} ry={ry} />
+    </>
+    textY = cy + ry / 2
+  } else if (shape === 'monitor') {
+    const screenH = h - 16
+    shapeEl = <>
+      <rect x={x} y={y} width={w} height={screenH} rx="4" />
+      <rect x={cx - 14} y={y + screenH} width="28" height="6" />
+      <rect x={cx - 26} y={y + screenH + 6} width="52" height="5" rx="1" />
+    </>
+    textY = y + screenH / 2
+  } else if (shape === 'hex') {
+    const points = [
+      [x + w * 0.16, y], [x + w * 0.84, y], [x + w, cy],
+      [x + w * 0.84, y + h], [x + w * 0.16, y + h], [x, cy]
+    ].map((p) => p.join(',')).join(' ')
+    shapeEl = <polygon points={points} />
+  } else {
+    shapeEl = <rect x={x} y={y} width={w} height={h} rx="2" />
+  }
+
   return (
     <g
-      className={`arch-node${primary ? ' primary' : ''}${active === nodeKey ? ' is-active' : ''}`}
+      className={`arch-node arch-node-${shape}${primary ? ' primary' : ''}${active === nodeKey ? ' is-active' : ''}`}
       onMouseEnter={() => onEnter(nodeKey)}
       onMouseLeave={() => onLeave(nodeKey)}
       onClick={() => onClick(nodeKey)}
     >
-      <rect x={x} y={y} width={w} height={h} rx="2" />
-      <text x={x + w / 2} y={y + h / 2 - (sub ? 6 : 0)} textAnchor="middle" className="arch-label">{label}</text>
-      {sub && <text x={x + w / 2} y={y + h / 2 + 14} textAnchor="middle" className="arch-sublabel">{sub}</text>}
+      {shapeEl}
+      <text x={cx} y={textY - (sub ? 6 : 0)} textAnchor="middle" className="arch-label">{label}</text>
+      {sub && <text x={cx} y={textY + 14} textAnchor="middle" className="arch-sublabel">{sub}</text>}
     </g>
   )
 }
@@ -40,34 +71,41 @@ export function ArchitectureDiagram() {
   const click = (key) => setActive((current) => (current === key ? null : key))
 
   const nodes = [
-    { nodeKey: 'employees', x: 70, y: 70, w: 170, h: 70, label: 'Zaměstnanci a PC', sub: 'chat, e-maily' },
+    { nodeKey: 'employees', x: 70, y: 70, w: 170, h: 76, label: 'Zaměstnanci a PC', sub: 'chat, e-maily', shape: 'monitor' },
     { nodeKey: 'dashboard', x: 430, y: 70, w: 170, h: 70, label: 'Dashboard', sub: 'ředitel, IT' },
     { nodeKey: 'n8n', x: 230, y: 190, w: 160, h: 90, label: 'n8n', sub: 'orchestrace', primary: true },
-    { nodeKey: 'database', x: 70, y: 330, w: 170, h: 70, label: 'Databáze klienta', sub: 'jen čtení' },
-    { nodeKey: 'model', x: 760, y: 195, w: 180, h: 80, label: 'AI model', sub: local ? 'na vašem serveru' : 'u poskytovatele' },
+    { nodeKey: 'database', x: 70, y: 330, w: 170, h: 70, label: 'Databáze klienta', sub: 'jen čtení', shape: 'cylinder' },
+    { nodeKey: 'model', x: 750, y: 190, w: 190, h: 90, label: 'AI model', sub: local ? 'na vašem serveru' : 'u poskytovatele', shape: 'hex' },
     { nodeKey: 'monitoring', x: 760, y: 460, w: 180, h: 60, label: 'Náš monitoring', sub: 'jen „běží / neběží“' }
   ]
 
   return (
     <div className="arch-diagram">
       <div className="arch-tiers">
-        {tiers.map((t, index) => (
-          <button key={t.key} className={`arch-tier-btn${tier === index ? ' is-active' : ''}`} onClick={() => setTier(index)}>
-            {t.label}
-          </button>
-        ))}
+        <button className={`arch-tier-primary${tier === 0 ? ' is-active' : ''}`} onClick={() => setTier(0)}>
+          Lokální model
+          <span className="arch-tier-tag">Doporučeno</span>
+        </button>
+        <div className="arch-tier-secondary">
+          <span className="arch-tier-or">nebo</span>
+          {tiers.slice(1).map((t, i) => (
+            <button key={t.key} className={`arch-tier-small${tier === i + 1 ? ' is-active' : ''}`} onClick={() => setTier(i + 1)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="arch-desktop">
         <svg viewBox="0 0 1000 560" className="arch-svg" role="img" aria-label="Diagram architektury nasazení">
-          <rect className="arch-perimeter" x="40" y="40" height="400" width={local ? 920 : 620} />
+          <rect className="arch-perimeter" x="40" y="40" height="400" width={local ? 920 : 610} />
           <text x="60" y="28" className="arch-perimeter-label">VAŠE SÍŤ</text>
 
-          <line x1="155" y1="140" x2="230" y2="225" className="arch-line" />
+          <line x1="155" y1="146" x2="230" y2="225" className="arch-line" />
           <line x1="515" y1="140" x2="390" y2="225" className="arch-line" />
           <line x1="155" y1="330" x2="230" y2="250" className="arch-line arch-line-dashed" />
-          <line x1="390" y1="235" x2="760" y2="235" className={`arch-line${local ? '' : ' arch-line-boundary'}`} />
-          {!local && <text x="710" y="220" className="arch-boundary-label" textAnchor="end">jen dotaz</text>}
+          <line x1="390" y1="235" x2="750" y2="235" className={`arch-line${local ? '' : ' arch-line-boundary'}`} />
+          {!local && <text x="700" y="220" className="arch-boundary-label" textAnchor="end">jen dotaz</text>}
           <path d="M 310 280 L 310 440 L 850 440 L 850 460" className="arch-line arch-line-pulse" />
 
           {nodes.map((n) => <DiagramNode key={n.nodeKey} {...n} active={active} onEnter={enter} onLeave={leave} onClick={click} />)}

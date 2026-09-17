@@ -158,16 +158,23 @@ nav.site a:last-child{border-bottom:0}
 @media(max-width:720px){.team-grid{grid-template-columns:1fr}}
 @media(max-width:420px){.team-card{grid-template-columns:1fr}}
 .arch-diagram{margin-top:32px}
-.arch-tiers{display:flex;gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:20px;width:fit-content}
-.arch-tier-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;padding:10px 16px;border:0;background:var(--panel);color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
-.arch-tier-btn.is-active{background:var(--amber);color:#181206;font-weight:600}
-.arch-tier-btn:hover:not(.is-active){color:var(--text)}
+.arch-tiers{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.arch-tier-primary{font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.03em;padding:14px 22px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,color .15s,border-color .15s}
+.arch-tier-primary.is-active{background:var(--amber);color:#181206;font-weight:600;border-color:var(--amber)}
+.arch-tier-primary:hover:not(.is-active){color:var(--text)}
+.arch-tier-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.04em;padding:2px 7px;background:rgba(0,0,0,.18);text-transform:uppercase}
+.arch-tier-primary.is-active .arch-tier-tag{background:rgba(0,0,0,.25)}
+.arch-tier-secondary{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.arch-tier-or{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.arch-tier-small{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 12px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
+.arch-tier-small.is-active{border-color:var(--amber);color:var(--text)}
+.arch-tier-small:hover:not(.is-active){color:var(--text)}
 .arch-svg{width:100%;height:auto;display:block}
 .arch-perimeter{fill:none;stroke:var(--sage);stroke-width:1;stroke-dasharray:4 4;transition:width .4s ease}
 .arch-perimeter-label{font-family:'IBM Plex Mono',monospace;font-size:11px;fill:var(--sage);letter-spacing:.1em}
-.arch-node rect{fill:var(--panel);stroke:var(--line);stroke-width:1;transition:stroke .15s}
-.arch-node.primary rect{stroke:var(--amber);stroke-width:1.5}
-.arch-node.is-active rect{stroke:var(--amber);stroke-width:1.5}
+.arch-node rect,.arch-node path,.arch-node ellipse,.arch-node polygon{fill:var(--panel);stroke:var(--line);stroke-width:1;transition:stroke .15s}
+.arch-node.primary rect,.arch-node.primary path,.arch-node.primary ellipse,.arch-node.primary polygon,
+.arch-node.is-active rect,.arch-node.is-active path,.arch-node.is-active ellipse,.arch-node.is-active polygon{stroke:var(--amber);stroke-width:1.5}
 .arch-node{cursor:pointer}
 .arch-label{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;fill:var(--text)}
 .arch-sublabel{font-family:'IBM Plex Mono',monospace;font-size:10px;fill:var(--muted)}
@@ -181,8 +188,10 @@ nav.site a:last-child{border-bottom:0}
 .arch-caption b{color:var(--text)}
 .arch-mobile{display:none}
 @media(max-width:720px){
-  .arch-tiers{width:100%;flex-wrap:wrap}
-  .arch-tier-btn{flex:1;text-align:center}
+  .arch-tiers{flex-direction:column;align-items:stretch}
+  .arch-tier-primary{width:100%;justify-content:center}
+  .arch-tier-secondary{width:100%;justify-content:center}
+  .arch-tier-small{flex:1}
   .arch-desktop{display:none}
   .arch-mobile{display:block}
 }
