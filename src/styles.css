@@ -196,3 +196,7 @@ nav.site a:last-child{border-bottom:0}
   .arch-desktop{display:none}
   .arch-mobile{display:block}
 }
+.shot{margin-top:28px}
+.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
+.shot figcaption{margin-top:10px;font-size:13px;color:var(--muted);max-width:680px}
+.shot figcaption b{color:var(--text);font-weight:600}
