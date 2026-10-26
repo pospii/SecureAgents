@@ -44,7 +44,7 @@ function DiagramNode({ nodeKey, x, y, w, h, label, sub, primary, shape = 'rect',
     ].map((p) => p.join(',')).join(' ')
     shapeEl = <polygon points={points} />
   } else {
-    shapeEl = <rect x={x} y={y} width={w} height={h} rx="2" />
+    shapeEl = <rect x={x} y={y} width={w} height={h} rx="5" />
   }
 
   return (
@@ -98,7 +98,7 @@ export function ArchitectureDiagram() {
 
       <div className="arch-desktop">
         <svg viewBox="0 0 1000 560" className="arch-svg" role="img" aria-label="Diagram architektury nasazení">
-          <rect className="arch-perimeter" x="40" y="40" height="400" width={local ? 920 : 610} />
+          <rect className="arch-perimeter" x="40" y="40" rx="6" height="400" width={local ? 920 : 610} />
           <text x="60" y="28" className="arch-perimeter-label">VAŠE SÍŤ</text>
 
           <line x1="155" y1="146" x2="230" y2="225" className="arch-line" />
