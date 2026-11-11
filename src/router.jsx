@@ -23,4 +23,4 @@ export function Link({ to, children, onClick, ...props }) {
   }
   return <a href={to} onClick={navigate} {...props}>{children}</a>
 }
-export function NavLink({ to, children, onClick }) { const path = usePath(); return <Link to={to} className={path === to ? 'active' : ''} onClick={onClick}>{children}</Link> }
+export function NavLink({ to, children, onClick }) { const path = usePath(); const active = path === to || (to !== '/' && path.startsWith(`${to}/`)); return <Link to={to} className={active ? 'active' : ''} onClick={onClick}>{children}</Link> }

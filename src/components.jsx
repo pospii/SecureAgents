@@ -39,6 +39,10 @@ export function Button({ children, to, primary = false, eventName, ...props }) {
   return to.startsWith('mailto:') ? <a className={className} href={to} onClick={onClick} {...props}>{children}</a> : <Link className={className} to={to} onClick={onClick} {...props}>{children}</Link>
 }
 
+export function AsideCta({ title, children }) {
+  return <Panel className="content-aside"><div className="tier">Konzultace zdarma</div><h3>{title}</h3><p>{children}</p><Button to="/kontakt" primary eventName="Kliknout na konzultaci (boční panel)">Nezávazná konzultace</Button><a className="aside-mail" href="mailto:info@secureagents.cz">info@secureagents.cz</a></Panel>
+}
+
 export function Footer({ technical = false, onOpenCookies }) {
   const [copied, setCopied] = useState('')
   const copyOnClick = (value, key) => () => { navigator.clipboard?.writeText(value).then(() => { setCopied(key); setTimeout(() => setCopied(''), 1800) }).catch(() => {}) }

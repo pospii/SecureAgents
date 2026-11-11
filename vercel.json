@@ -23,6 +23,10 @@
     {
       "source": "/ochrana-soukromi",
       "destination": "/index.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/index.html"
     }
   ]
 }
