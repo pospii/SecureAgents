@@ -30,7 +30,7 @@ export function HeroDiagram() {
         <circle className="hd-pulse" cx="320" cy="260" r="72" />
 
         {nodes.map((node, index) => (
-          <g className="hd-node" key={node.key}>
+          <g className="hd-node" key={node.key} style={{ '--i': index }}>
             <title>{node.title}</title>
             <line className="hd-spoke" style={{ animationDelay: `${index * -0.45}s` }}
               x1={node.line[0]} y1={node.line[1]} x2={node.line[2]} y2={node.line[3]} />
@@ -39,7 +39,7 @@ export function HeroDiagram() {
           </g>
         ))}
 
-        <g className="hd-node hd-lock">
+        <g className="hd-node hd-lock" style={{ '--i': 5 }}>
           <title>Citlivé kroky čekají na vaše schválení</title>
           <line className="hd-spoke" x1="320" y1="326" x2="320" y2="336" />
           <circle className="hd-ring" cx="320" cy="372" r="26" />

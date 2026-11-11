@@ -7,8 +7,8 @@ const tiers = [
 ]
 
 const nodeInfo = {
-  employees: { title: 'Zaměstnanci a PC', text: 'Přístup k AI přes self-hosted chat portál — psaní, shrnutí, překlady, bez závislosti na cizí webové appce.' },
-  n8n: { title: 'n8n', text: 'Jedna platforma pro automatizaci procesů, monitoring i chat s asistentem.' },
+  employees: { title: 'Zaměstnanci a PC', text: 'S asistentem pracují přes firemní chat, který běží u vás — ne přes cizí webovou aplikaci.' },
+  n8n: { title: 'AI agent', text: 'Řídí automatizace a odpovídá na dotazy. Běží celý ve vaší síti.' },
   database: { title: 'Databáze klienta', text: 'Napojení jen pro čtení — agent do vašich provozních dat nikdy nezapisuje.' },
   dashboard: { title: 'Dashboard', text: 'Přehled stavu, anomálií a nákladů pro vedení a IT.' },
   model: { title: 'AI model', text: 'Zpracuje jednotlivý dotaz. Kde přesně běží, určuje zvolená úroveň výše.' },
@@ -73,7 +73,7 @@ export function ArchitectureDiagram() {
   const nodes = [
     { nodeKey: 'employees', x: 70, y: 70, w: 170, h: 76, label: 'Zaměstnanci a PC', sub: 'chat, e-maily', shape: 'monitor' },
     { nodeKey: 'dashboard', x: 430, y: 70, w: 170, h: 70, label: 'Dashboard', sub: 'ředitel, IT' },
-    { nodeKey: 'n8n', x: 230, y: 190, w: 160, h: 90, label: 'n8n', sub: 'orchestrace', primary: true },
+    { nodeKey: 'n8n', x: 230, y: 190, w: 160, h: 90, label: 'AI agent', sub: 'automatizace, asistent', primary: true },
     { nodeKey: 'database', x: 70, y: 330, w: 170, h: 70, label: 'Databáze klienta', sub: 'jen čtení', shape: 'cylinder' },
     { nodeKey: 'model', x: 750, y: 190, w: 190, h: 90, label: 'AI model', sub: local ? 'na vašem serveru' : 'u poskytovatele', shape: 'hex' },
     { nodeKey: 'monitoring', x: 760, y: 460, w: 180, h: 60, label: 'Náš monitoring', sub: 'jen „běží / neběží“' }
@@ -113,8 +113,8 @@ export function ArchitectureDiagram() {
       </div>
 
       <div className="arch-mobile cost-flow">
-        <div className="cost-row"><div className="marker">01</div><div><h4>Zaměstnanci a PC</h4><p>Přístup k AI přes self-hosted chat portál.</p></div></div>
-        <div className="cost-row"><div className="marker">02</div><div><h4>n8n</h4><p>Jedna platforma — automatizace, monitoring i chat s asistentem.</p></div></div>
+        <div className="cost-row"><div className="marker">01</div><div><h4>Zaměstnanci a PC</h4><p>S asistentem pracují přes firemní chat, který běží u vás.</p></div></div>
+        <div className="cost-row"><div className="marker">02</div><div><h4>AI agent</h4><p>Řídí automatizace a odpovídá na dotazy. Běží celý ve vaší síti.</p></div></div>
         <div className="cost-row"><div className="marker">03</div><div><h4>Databáze klienta</h4><p>Napojení jen pro čtení.</p></div></div>
         <div className="cost-row"><div className="marker">04</div><div><h4>Dashboard</h4><p>Přehled stavu a nákladů pro vedení a IT.</p></div></div>
         <div className="cost-row"><div className="marker">05</div><div><h4>AI model</h4><p>{local ? 'Běží na vašem serveru — nic neopouští vaši síť.' : 'Běží u poskytovatele — ven jde jen jednotlivý dotaz.'}</p></div></div>

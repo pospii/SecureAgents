@@ -4,11 +4,13 @@ import { track } from '@vercel/analytics/react'
 
 function useHeaderVisibility() {
   const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     let lastY = window.scrollY
     const update = () => {
       const y = window.scrollY
       const delta = y - lastY
+      setScrolled(y > 8)
       if (y < 80) setHidden(false)
       else if (delta > 8) setHidden(true)
       else if (delta < -8) setHidden(false)
@@ -17,14 +19,14 @@ function useHeaderVisibility() {
     addEventListener('scroll', update, { passive: true })
     return () => removeEventListener('scroll', update)
   }, [])
-  return hidden
+  return { hidden, scrolled }
 }
 
 export function Header() {
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
-  const hiddenByScroll = useHeaderVisibility()
-  return <header className={`site${hiddenByScroll && !open ? ' is-hidden' : ''}`}><div className="wrap"><Link className="logo" to="/" onClick={close}>Secure<span>Agents</span></Link><button className={`nav-toggle${open ? ' is-open' : ''}`} onClick={() => setOpen((value) => !value)} aria-label={open ? 'Zavřít menu' : 'Otevřít menu'} aria-expanded={open}><span /><span /><span /></button><nav className={`site${open ? ' is-open' : ''}`}><NavLink to="/" onClick={close}>Domů</NavLink><NavLink to="/jak-to-funguje" onClick={close}>Jak to funguje</NavLink><NavLink to="/o-nas" onClick={close}>O nás</NavLink><NavLink to="/blog" onClick={close}>Blog</NavLink><NavLink to="/faq" onClick={close}>FAQ</NavLink><NavLink to="/kontakt" onClick={close}>Kontakt</NavLink></nav></div></header>
+  const { hidden: hiddenByScroll, scrolled } = useHeaderVisibility()
+  return <header className={`site${hiddenByScroll && !open ? ' is-hidden' : ''}${scrolled ? ' is-scrolled' : ''}`}><div className="wrap"><Link className="logo" to="/" onClick={close}>Secure<span>Agents</span></Link><button className={`nav-toggle${open ? ' is-open' : ''}`} onClick={() => setOpen((value) => !value)} aria-label={open ? 'Zavřít menu' : 'Otevřít menu'} aria-expanded={open}><span /><span /><span /></button><nav className={`site${open ? ' is-open' : ''}`}><NavLink to="/" onClick={close}>Domů</NavLink><NavLink to="/jak-to-funguje" onClick={close}>Bezpečnost</NavLink><NavLink to="/o-nas" onClick={close}>O nás</NavLink><NavLink to="/blog" onClick={close}>Blog</NavLink><NavLink to="/faq" onClick={close}>FAQ</NavLink><NavLink to="/kontakt" onClick={close}>Kontakt</NavLink></nav></div></header>
 }
 
 export function Panel({ children, className = '' }) {
@@ -40,7 +42,7 @@ export function Button({ children, to, primary = false, eventName, ...props }) {
 export function Footer({ technical = false, onOpenCookies }) {
   const [copied, setCopied] = useState('')
   const copyOnClick = (value, key) => () => { navigator.clipboard?.writeText(value).then(() => { setCopied(key); setTimeout(() => setCopied(''), 1800) }).catch(() => {}) }
-  return <footer><div className="wrap"><div><h3>{technical ? 'Máte technickou otázku, na kterou tu nevidíte odpověď?' : 'Chcete AI agenta, kterému rozumíte a věříte?'}</h3><div className="cta-row"><Button to="mailto:info@secureagents.cz" primary eventName="Kontaktovat e-mailem" onClick={copyOnClick('info@secureagents.cz', 'email')}>{copied === 'email' ? 'E-mail zkopírován ✓' : 'info@secureagents.cz'}</Button>{technical && <Button to="/#sluzby">Zpět na služby</Button>}</div></div><nav className="foot-nav"><Link to="/">Domů</Link><Link to="/jak-to-funguje">Jak to funguje</Link><Link to="/o-nas">O nás</Link><Link to="/blog">Blog</Link><Link to="/faq">FAQ</Link><Link to="/kontakt">Kontakt</Link></nav><div className="foot-meta"><div>SecureAgents</div><div>Bc. Adam Pospíšek</div><div>Ostrava / Brno, ČR</div><div><a href="tel:+420606331442" onClick={copyOnClick('+420 606 331 442', 'phone')}>{copied === 'phone' ? 'Telefon zkopírován ✓' : '+420 606 331 442'}</a></div></div></div><div className="foot-bottom"><div className="wrap foot-bottom-row"><span>© 2026 SecureAgents</span><div className="foot-bottom-links"><Link to="/ochrana-soukromi">Ochrana soukromí</Link><button className="text-button" onClick={onOpenCookies}>Nastavení cookies</button></div></div></div></footer>
+  return <footer><div className="wrap"><div><h3>{technical ? 'Máte technickou otázku, na kterou tu nevidíte odpověď?' : 'Chcete AI agenta, kterému rozumíte a věříte?'}</h3><div className="cta-row"><Button to="mailto:info@secureagents.cz" primary eventName="Kontaktovat e-mailem" onClick={copyOnClick('info@secureagents.cz', 'email')}>{copied === 'email' ? 'E-mail zkopírován ✓' : 'info@secureagents.cz'}</Button>{technical && <Button to="/#sluzby">Zpět na služby</Button>}</div></div><nav className="foot-nav"><Link to="/">Domů</Link><Link to="/jak-to-funguje">Bezpečnost</Link><Link to="/o-nas">O nás</Link><Link to="/blog">Blog</Link><Link to="/faq">FAQ</Link><Link to="/kontakt">Kontakt</Link></nav><div className="foot-meta"><div>SecureAgents</div><div>Bc. Adam Pospíšek</div><div>Ostrava / Brno, ČR</div><div><a href="tel:+420606331442" onClick={copyOnClick('+420 606 331 442', 'phone')}>{copied === 'phone' ? 'Telefon zkopírován ✓' : '+420 606 331 442'}</a></div></div></div><div className="foot-bottom"><div className="wrap foot-bottom-row"><span>© 2026 SecureAgents</span><div className="foot-bottom-links"><Link to="/ochrana-soukromi">Ochrana soukromí</Link><button className="text-button" onClick={onOpenCookies}>Nastavení cookies</button></div></div></div></footer>
 }
 
 export function CookieBanner({ onSave }) {
