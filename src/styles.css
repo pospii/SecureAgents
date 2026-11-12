@@ -330,7 +330,6 @@ h1,h2,h3{text-wrap:balance}
 .panel,.grid-2>div,.step,.why-item,.cost-row,.faq-item,.post-card,.fact,.audit,.privacy-card,.contact-form,.callout,.stack-grid{box-shadow:var(--shadow)}
 main .hero+section:before,main .hero+section:after{display:none}
 /* světlý obsah jako „list“ se zaoblenými rohy mezi tmavým herem a patičkou */
-html{overscroll-behavior-y:none}
 body{background:#12161c}
 main{display:flex;flex-direction:column;min-height:calc(100svh - 69px)}
 main>footer{margin-top:auto;border-top:0}
@@ -344,3 +343,6 @@ main>section:not(.hero):last-of-type{border-bottom-left-radius:20px;border-botto
 .hero:not(.compact) .wrap{width:100%}
 @media(max-width:900px){.hero-diagram{max-width:420px;margin:0 auto}}
 @media(prefers-color-scheme:dark){main .hero+section:before,main .hero+section:after{display:block}}
+/* plovoucí tlačítka výš od spodního okraje na dotykových zařízeních */
+@media(hover:none),(max-width:1024px){.consult-cta,.cookie-banner{bottom:calc(40px + env(safe-area-inset-bottom,0px))}.scroll-top{bottom:calc(108px + env(safe-area-inset-bottom,0px))}}
+@media(max-width:640px){.consult-cta,.cookie-banner{bottom:calc(28px + env(safe-area-inset-bottom,0px))}.scroll-top{bottom:calc(94px + env(safe-area-inset-bottom,0px))}}
