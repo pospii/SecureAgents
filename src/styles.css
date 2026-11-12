@@ -329,3 +329,18 @@ h1,h2,h3{text-wrap:balance}
 /* světlé téma: karty nese jemný stín místo tmavých okrajů; po tmavém heru není předěl potřeba */
 .panel,.grid-2>div,.step,.why-item,.cost-row,.faq-item,.post-card,.fact,.audit,.privacy-card,.contact-form,.callout,.stack-grid{box-shadow:var(--shadow)}
 main .hero+section:before,main .hero+section:after{display:none}
+/* světlý obsah jako „list“ se zaoblenými rohy mezi tmavým herem a patičkou */
+html{overscroll-behavior-y:none}
+body{background:#12161c}
+main{display:flex;flex-direction:column;min-height:calc(100svh - 69px)}
+main>footer{margin-top:auto;border-top:0}
+main>section:not(.hero){background:var(--ink)}
+main>.hero+section{border-top-left-radius:28px;border-top-right-radius:28px}
+main>section:not(.hero):last-of-type{border-bottom-left-radius:28px;border-bottom-right-radius:28px}
+@media(max-width:640px){main>.hero+section{border-top-left-radius:20px;border-top-right-radius:20px}
+main>section:not(.hero):last-of-type{border-bottom-left-radius:20px;border-bottom-right-radius:20px}}
+/* hero na úvodní stránce přes celou obrazovku; dole vykukuje začátek světlého obsahu */
+.hero:not(.compact){display:flex;align-items:center;min-height:min(calc(100svh - 105px),840px)}
+.hero:not(.compact) .wrap{width:100%}
+@media(max-width:900px){.hero-diagram{max-width:420px;margin:0 auto}}
+@media(prefers-color-scheme:dark){main .hero+section:before,main .hero+section:after{display:block}}
